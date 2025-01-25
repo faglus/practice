@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const app =express();
 
 const dataRouter = require('./route/route');
+const userRouter =require("./route/user.route");
+const loginRouter= require("./route/login.route");
+// const {validateJWT} =require("./middleware/verifyJWT");
 
 require('dotenv').config();
 
@@ -27,7 +30,10 @@ db.once('open',()=>{
 // root route
 
 app.use(express.json());
+// app.use('/practice',validateJWT,dataRouter);
 app.use('/practice',dataRouter);
+app.use('/user',userRouter);
+app.use('/auth',loginRouter);
 
 app.get('/',(req,res)=>{
     res.send('welcome to this practice session');

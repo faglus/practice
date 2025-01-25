@@ -1,4 +1,4 @@
-const { createData, getAll, getbyId, updatebyid ,deletebyid} = require('../business/business');
+const { createData, getAll, getbyId, updatebyid, deletebyid } = require('../business/business');
 
 const createDataController = async (req, res) => {
     const newItem = {
@@ -50,11 +50,13 @@ const updatebyidcontroller = async (req, res) => {
 };
 
 
-const deletebyidcontroller = async(req,res)=>{
-    const {id}=req.params;
+const deletebyidcontroller = async (req, res) => {
+    const { id } = req.params;
     const deletedItem = await deletebyid(id);
-    if(!deletedItem){
-        res.status(404).json({message:'given id not found'});
+    if (!deletedItem) {
+        res.status(404).json({ message: 'given id not found' });
+    } else {
+        res.status(202).json({ message: "Id deleted succesfull" })
     }
 };
 
