@@ -22,6 +22,7 @@ const deletebyid = async (id, deletedata) => schema.findByIdAndDelete(id, delete
 
 
 
+
 module.exports = {
     createData,
     getAll,

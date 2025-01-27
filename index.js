@@ -1,13 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require("express-session");
+const passport = require("passport");
+
 const app =express();
 
+const authRoutes = require("./route/auth.route");
 const dataRouter = require('./route/route');
 const userRouter =require("./route/user.route");
 const loginRouter= require("./route/login.route");
 // const {validateJWT} =require("./middleware/verifyJWT");
 
 require('dotenv').config();
+require("./config/passport.config"); 
 
 
 
@@ -26,11 +31,31 @@ db.once('open',()=>{
 });
 
 
+// 
+
+
+// Middleware
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET || "your-secret-key",
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
+  // Views
+  app.set("view engine", "ejs");
+  app.set("views", "./views");
+  
+  // Routes
+  app.use("/", authRoutes);
 
 // root route
 
 app.use(express.json());
-// app.use('/practice',validateJWT,dataRouter);
 app.use('/practice',dataRouter);
 app.use('/user',userRouter);
 app.use('/auth',loginRouter);
